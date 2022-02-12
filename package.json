@@ -11,7 +11,6 @@
   "scripts": {
     "start": "npm run build && node dist/app.js",
     "dev": "eslint --fix && nodemon",
-    "postinstall": "tsc && rm -v -rf src",
     "build": "tsc"
   },
   "author": "",
@@ -25,9 +24,7 @@
     "mongoose": "^6.2.1",
     "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
-  },
-  "devDependencies": {
+    "typescript": "^4.5.5",
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
@@ -38,5 +35,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15"
-  }
+  },
+  "devDependencies": {}
 }
