@@ -7,7 +7,7 @@
   "scripts": {
     "start": "npm run build && node dist/app.js",
     "dev": "eslint --fix && nodemon",
-    "postinstall": "tsc && mv -i -v public dist/ && rm -v -rf src",
+    "postinstall": "tsc && rm -v -rf src",
     "build": "tsc"
   },
   "author": "",
