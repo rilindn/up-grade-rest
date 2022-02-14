@@ -1,5 +1,5 @@
 import express from 'express';
-import classController from '../controllers/class.controller';
+import classController from '../../controllers/class.controller';
 
 const classRoutes = express.Router();
 
@@ -12,6 +12,5 @@ classRoutes.post('/create', classController.registerClass);
 classRoutes.put('/:id', classController.updateClass);
 
 classRoutes.delete('/:id', classController.deleteClass);
-
 
 export default classRoutes;

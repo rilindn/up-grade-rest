@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 var StudentSchema = new mongoose.Schema(
   {
@@ -37,6 +38,12 @@ var StudentSchema = new mongoose.Schema(
     collection: 'students',
   },
 );
+
+StudentSchema.pre('save', async function (next) {
+  const hash = await bcrypt.hash(this.password, 10);
+  this.password = hash;
+  next();
+});
 
 StudentSchema.virtual('fullName').get(function (this: any) {
   return this.firstName + ' ' + this.lastName;

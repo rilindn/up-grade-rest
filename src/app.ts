@@ -3,11 +3,12 @@ import cors from 'cors';
 import mongoDbConfig from './config/mongodb.config';
 import * as dotenv from 'dotenv';
 import helmet from 'helmet';
-import cookieParser from 'cookie-parser'
-import passport from 'passport'
-import session from 'express-session'
-import router from './routes';
-import "./config/passport.config"
+import cookieParser from 'cookie-parser';
+import passport from 'passport';
+import session from 'express-session';
+import loginRouter from './routes/loginRoute';
+import secureRouter from './routes/secureRoutes';
+import './config/passport.config';
 
 dotenv.config();
 
@@ -20,24 +21,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
-app.use(cookieParser())
-app.use(session({
-  secret: 'key that will sign cookie',
-  resave: false,
-  saveUninitialized: false,
-}))                       
+app.use(cookieParser());
+app.use(
+  session({
+    secret: process.env.SECRET_SESSION_KEY!,
+    proxy: true,
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.use(passport.initialize())   
-app.use(passport.session())   
-app.use('/', router);
+app.use('/', loginRouter);
+app.use('/', passport.authenticate('jwt', { session: false }), secureRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running in port ${PORT}`);
 });
-
-// app.use((req, res, next) => {
-//   next(createError(404));
-// });
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.error(err.message);
