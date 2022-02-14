@@ -3,7 +3,11 @@ import cors from 'cors';
 import mongoDbConfig from './config/mongodb.config';
 import * as dotenv from 'dotenv';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser'
+import passport from 'passport'
+import session from 'express-session'
 import router from './routes';
+import "./config/passport.config"
 
 dotenv.config();
 
@@ -16,6 +20,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+app.use(cookieParser())
+app.use(session({
+  secret: 'key that will sign cookie',
+  resave: false,
+  saveUninitialized: false,
+}))                       
+
+app.use(passport.initialize())   
+app.use(passport.session())   
 app.use('/', router);
 
 app.listen(PORT, () => {
