@@ -2,9 +2,8 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import bcrypt from 'bcrypt';
 import passportJwt from 'passport-jwt';
-import student from '../models/student';
+import User from '../models/user';
 import dotenv from 'dotenv';
-import User from '../models/student';
 
 dotenv.config();
 
@@ -20,15 +19,12 @@ const authFields = {
 
 passport.use(
   new LocalStrategy(authFields, async (email: String, password: string | Buffer, done: any) => {
-    const user = await student.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
-      console.log('User not found!');
       return done(null, false);
     } else if (!(await bcrypt.compare(password, user.password))) {
-      console.log('Incorrect password!');
       return done(null, false);
     } else {
-      console.log('Logged in!');
       return done(null, user);
     }
   }),
@@ -49,15 +45,3 @@ passport.use(
     },
   ),
 );
-
-passport.serializeUser(function (user: any, done) {
-  console.log('serializeUser', user);
-  done(null, user?._id);
-});
-
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err: any, user: any) {
-    console.log('deserializeUser', user);
-    done(err, user);
-  });
-});

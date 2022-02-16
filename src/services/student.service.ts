@@ -1,4 +1,6 @@
-import StudentModel from '../models/student';
+import User from '../models/user';
+
+const INITIAL_USER_ID = 100200300;
 
 interface StudentDTO {
   firstName: String;
@@ -6,8 +8,8 @@ interface StudentDTO {
 }
 
 export const generateStudentId = async () => {
-  const lastStudent = await StudentModel.find().sort({ _id: -1 }).limit(1);
-  let { studentId }: any = lastStudent[0];
+  const lastStudent = await User.find()?.sort({ _id: -1 })?.limit(1);
+  let studentId = lastStudent?.[0]?.studentId || INITIAL_USER_ID;
   return ++studentId;
 };
 
