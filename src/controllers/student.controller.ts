@@ -1,11 +1,11 @@
-import StudentModel from '../models/student';
+import User from '../models/user';
 import { Request, Response } from 'express';
 import { generateStudentId, generateStudentEmail } from '../services/student.service';
 import { registerSchema, updateSchema } from './../validators/student.validation';
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
-    const students = await StudentModel.find();
+    const students = await User.find();
     return res.send(students);
   } catch (error) {
     return res.status(500).send(error);
@@ -14,7 +14,7 @@ const getAllStudents = async (req: Request, res: Response) => {
 
 const getStudentById = async (req: Request, res: Response) => {
   try {
-    const student = await StudentModel.find({ _id: req.params.id });
+    const student = await User.find({ _id: req.params.id });
     return res.send(student);
   } catch (error) {
     return res.status(500).send(error);
@@ -32,7 +32,7 @@ const registerStudent = async (req: Request, res: Response) => {
     return res.status(400).json({ error: errorMsg });
   }
 
-  const newUser = new StudentModel({ ...req.body, studentId, email });
+  const newUser = new User({ ...req.body, studentId, email });
   try {
     await newUser.save();
     return res.send(newUser);
@@ -50,7 +50,7 @@ const updateStudent = async (req: Request, res: Response) => {
     return res.status(400).json({ error: errorMsg });
   }
 
-  const updatedStudent = await StudentModel.findByIdAndUpdate(req.params.id, req.body, { returnOriginal: false });
+  const updatedStudent = await User.findByIdAndUpdate(req.params.id, req.body, { returnOriginal: false });
   if (!updatedStudent) res.status(404).send('User not found!');
   try {
     await updatedStudent.save();
@@ -62,7 +62,7 @@ const updateStudent = async (req: Request, res: Response) => {
 
 const deleteStudent = async (req: Request, res: Response) => {
   try {
-    const deletedStudent = await StudentModel.findByIdAndDelete(req.params.id);
+    const deletedStudent = await User.findByIdAndDelete(req.params.id);
     if (!deletedStudent) res.status(404).send('User not found!');
     res.status(200).send(deletedStudent);
   } catch (error) {

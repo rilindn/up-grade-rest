@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-var StudentSchema = new mongoose.Schema(
+var UserSchema = new mongoose.Schema(
   {
     studentId: {
       type: Number,
@@ -32,21 +32,27 @@ var StudentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    role: {
+      type: String,
+      enum: ['Student', 'Staff', 'Admin'],
+      required: true,
+      default: 'Student',
+    },
   },
   {
     timestamps: true,
-    collection: 'students',
+    collection: 'users',
   },
 );
 
-StudentSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
   next();
 });
 
-StudentSchema.virtual('fullName').get(function (this: any) {
+UserSchema.virtual('fullName').get(function (this: any) {
   return this.firstName + ' ' + this.lastName;
 });
 
-export default mongoose.model('Student', StudentSchema);
+export default mongoose.model('User', UserSchema);
