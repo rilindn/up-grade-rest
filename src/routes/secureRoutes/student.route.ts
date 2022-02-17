@@ -7,7 +7,7 @@ studentRouter.get('/', studentController.getAllStudents);
 
 studentRouter.get('/:id', studentController.getStudentById);
 
-studentRouter.post('/create', studentController.registerStudent);
+studentRouter.post('/', studentController.registerStudent);
 
 studentRouter.put('/:id', studentController.updateStudent);
 

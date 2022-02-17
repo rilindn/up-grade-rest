@@ -3,12 +3,6 @@ import bcrypt from 'bcrypt';
 
 var UserSchema = new mongoose.Schema(
   {
-    studentId: {
-      type: Number,
-      required: true,
-      trim: true,
-      unique: true,
-    },
     firstName: {
       type: String,
       required: true,
@@ -31,23 +25,24 @@ var UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      select: false,
     },
-    role: {
+    dateOfBirth: {
       type: String,
-      enum: ['Student', 'Staff', 'Admin'],
       required: true,
-      default: 'Student',
+      trim: true,
     },
   },
   {
     timestamps: true,
     collection: 'users',
+    discriminatorKey: 'role',
   },
 );
 
 UserSchema.pre('save', async function (next) {
-  const hash = await bcrypt.hash(this.password, 10);
-  this.password = hash;
+  const hashedPsw = await bcrypt.hash(this.password, 10);
+  this.password = hashedPsw;
   next();
 });
 
