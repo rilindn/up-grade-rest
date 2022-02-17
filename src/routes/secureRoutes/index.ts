@@ -3,6 +3,8 @@ import studentRoutes from './student.route';
 import classRoutes from './class.route';
 import passport from 'passport';
 import { loggedUser } from '../../controllers/auth.controller';
+import staffRoutes from './staff.route';
+import adminRoutes from './admin.route';
 
 const router = express.Router();
 
@@ -10,6 +12,8 @@ const router = express.Router();
 router.get('/loggedUser', passport.authenticate('jwt', { session: false }), loggedUser);
 
 router.use('/student', studentRoutes);
+router.use('/staff', staffRoutes);
+router.use('/admin', adminRoutes);
 router.use('/class', classRoutes);
 
 export default router;
