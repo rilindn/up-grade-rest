@@ -1,7 +1,8 @@
 import passport from 'passport';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import User from '../models/user';
+import User from '../models/user.model';
+import _ from 'lodash';
 
 dotenv.config();
 const jwt = jsonwebtoken;
@@ -17,7 +18,8 @@ const login = async (req: any, res: any, next: any) => {
         if (error) return next(error);
         const body = { userID: user?._id };
         const token = jwt.sign({ user: body }, process.env.ACCESS_TOKEN_SECRET || '');
-        return res.json({ token, user: req.user });
+        const { password, ...data } = user._doc; // don't send password field in response
+        return res.json({ token, user: data });
       });
     } catch (error) {
       return next(error);

@@ -1,4 +1,4 @@
-import ClassModel from '../models/class';
+import ClassModel from '../models/class.model';
 import { Request, Response } from 'express';
 import { registerSchema, updateSchema } from './../validators/class.validation';
 
@@ -21,13 +21,13 @@ const getClassById = async (req: Request, res: Response) => {
 };
 
 const registerClass = async (req: Request, res: Response) => {
-  const validationResult = registerSchema.validate({ ...req.body  });
+  const validationResult = registerSchema.validate({ ...req.body });
 
   if (validationResult.error) {
     const errorMsg = validationResult.error.details[0].message;
     return res.status(400).json({ error: errorMsg });
   }
-  const newClass = new ClassModel({ ...req.body});
+  const newClass = new ClassModel({ ...req.body });
   try {
     await newClass.save();
     return res.send(newClass);
@@ -36,7 +36,7 @@ const registerClass = async (req: Request, res: Response) => {
   }
 };
 
-const updateClass= async (req: Request, res: Response) => {
+const updateClass = async (req: Request, res: Response) => {
   const classId = req.params.id;
   const validationResult = updateSchema.validate({ ...req.body, classId });
 
@@ -65,4 +65,4 @@ const deleteClass = async (req: Request, res: Response) => {
   }
 };
 
-export default {getAllClasses, getClassById, registerClass, updateClass, deleteClass };
+export default { getAllClasses, getClassById, registerClass, updateClass, deleteClass };
