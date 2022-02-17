@@ -26,12 +26,14 @@ const seedAdmins = [
     lastName: 'Admin',
     email: 'admin@upgrade.edu',
     password: DEFAULT_PSW,
+    dateOfBirth: '1990-02-17T16:51:36.472Z',
   },
   {
     firstName: 'SuperAdmin',
     lastName: 'SuperAdmin',
     email: 'superadmin@upgrade.edu',
     password: DEFAULT_PSW,
+    dateOfBirth: '1990-02-17T16:51:36.472Z',
   },
 ];
 
@@ -43,6 +45,7 @@ const seedStudents = [
     email: 'rilind@upgrade.edu',
     password: DEFAULT_PSW,
     parent: 'Filan',
+    dateOfBirth: '2000-02-17T16:51:36.472Z',
   },
   {
     studentId: 100200401,
@@ -51,6 +54,7 @@ const seedStudents = [
     email: 'rilinda@upgrade.edu',
     password: DEFAULT_PSW,
     parent: 'Filan',
+    dateOfBirth: '2000-02-17T16:51:36.472Z',
   },
 ];
 
@@ -60,12 +64,14 @@ const seedStaff = [
     lastName: 'Fetahu',
     email: 'leonita@upgrade.edu',
     password: DEFAULT_PSW,
+    dateOfBirth: '1990-02-17T16:51:36.472Z',
   },
   {
     firstName: 'Agnesa',
     lastName: 'Demolli',
     email: 'agnesa@upgrade.edu',
     password: DEFAULT_PSW,
+    dateOfBirth: '1990-02-17T16:51:36.472Z',
   },
 ];
 
