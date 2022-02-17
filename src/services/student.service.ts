@@ -1,4 +1,4 @@
-import User from '../models/user';
+import User from '../models/user.model';
 
 const INITIAL_USER_ID = 100200300;
 
@@ -13,8 +13,8 @@ export const generateStudentId = async () => {
   return ++studentId;
 };
 
-export const generateStudentEmail = async (id: Number, data: StudentDTO) => {
-  const trimedId = id?.toString()?.slice(-4);
+export const generateStudentEmail = (id: Number, data: StudentDTO) => {
+  const trimedId = id?.toString()?.slice(-5);
   const nameInitials = data?.firstName?.charAt(0) + data?.lastName?.charAt(0);
   const resultEmail = `${nameInitials.toLowerCase()}${trimedId}@upgrade.edu`;
   return resultEmail;

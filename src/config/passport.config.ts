@@ -2,7 +2,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import bcrypt from 'bcrypt';
 import passportJwt from 'passport-jwt';
-import User from '../models/user';
+import User from '../models/user.model';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,7 +19,8 @@ const authFields = {
 
 passport.use(
   new LocalStrategy(authFields, async (email: String, password: string | Buffer, done: any) => {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
+    console.log(user);
     if (!user) {
       return done(null, false);
     } else if (!(await bcrypt.compare(password, user.password))) {
