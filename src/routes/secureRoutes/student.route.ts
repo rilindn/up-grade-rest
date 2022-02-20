@@ -5,6 +5,8 @@ const studentRouter = express.Router();
 
 studentRouter.get('/', studentController.getAllStudents);
 
+studentRouter.get('/paginate', studentController.getPaniationItems);
+
 studentRouter.get('/:id', studentController.getStudentById);
 
 studentRouter.post('/', studentController.registerStudent);
