@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { generateStudentId, generateStudentEmail } from '../services/student.service';
 import { studentRegister, studentUpdate } from './../validators/student.validation';
 import Student from '../models/student.model';
+import paginate from 'jw-paginate';
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
@@ -9,6 +10,22 @@ const getAllStudents = async (req: Request, res: Response) => {
     return res.send(students);
   } catch (error) {
     return res.status(500).send(error);
+  }
+};
+
+const getPaniationItems = async (req: any, res: any) => {
+  try {
+    const items: any = await Student.find();
+    const page = parseInt(req.query.page) || 1;
+
+    const pageSize = 7;
+    const pager = paginate(items.length, page, pageSize);
+
+    const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
+
+    return res.status(200).send({ pager, pageOfItems });
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -69,4 +86,4 @@ const deleteStudent = async (req: Request, res: Response) => {
   }
 };
 
-export default { getAllStudents, getStudentById, registerStudent, updateStudent, deleteStudent };
+export default { getAllStudents, getPaniationItems, getStudentById, registerStudent, updateStudent, deleteStudent };

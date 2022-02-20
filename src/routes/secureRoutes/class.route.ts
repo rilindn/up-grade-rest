@@ -7,7 +7,7 @@ classRoutes.get('/', classController.getAllClasses);
 
 classRoutes.get('/:id', classController.getClassById);
 
-classRoutes.post('/create', classController.registerClass);
+classRoutes.post('/', classController.registerClass);
 
 classRoutes.put('/:id', classController.updateClass);
 
