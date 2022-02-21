@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-import User from './user.model';
+import mongoose from 'mongoose'
+import User from './user.model'
 
 const Student = User.discriminator(
   'Student',
   new mongoose.Schema({
     studentId: {
-      type: Number,
+      type: String,
       required: true,
       trim: true,
     },
@@ -14,6 +14,6 @@ const Student = User.discriminator(
       trim: true,
     },
   }),
-);
+)
 
-export default Student;
+export default Student
