@@ -1,89 +1,96 @@
-import { Request, Response } from 'express';
-import { generateStudentId, generateStudentEmail } from '../services/student.service';
-import { studentRegister, studentUpdate } from './../validators/student.validation';
-import Student from '../models/student.model';
-import paginate from 'jw-paginate';
+import { Request, Response } from 'express'
+import { generateStudentId, generateStudentEmail } from '../services/student.service'
+import { studentRegister, studentUpdate } from './../validators/student.validation'
+import Student from '../models/student.model'
+import paginate from 'jw-paginate'
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
-    const students = await Student.find();
-    return res.send(students);
+    const students = await Student.find()
+    return res.send(students)
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send(error)
   }
-};
+}
 
-const getPaniationItems = async (req: any, res: any) => {
+const getFilteredUsers = async (req: any, res: any) => {
   try {
-    const items: any = await Student.find();
-    const page = parseInt(req.query.page) || 1;
+    const page = parseInt(req.query.page) || 1
+    const search = req.query.search || ''
+    const items: any = await Student.find({
+      $or: [
+        { firstName: { $regex: search, $options: 'i' } },
+        { lastName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { studentId: { $regex: search, $options: 'i' } },
+      ],
+    })
+    const pageSize = 7
+    const pager = paginate(items.length, page, pageSize)
 
-    const pageSize = 7;
-    const pager = paginate(items.length, page, pageSize);
+    const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1)
 
-    const pageOfItems = items.slice(pager.startIndex, pager.endIndex + 1);
-
-    return res.status(200).send({ pager, pageOfItems });
+    return res.status(200).send({ pager, pageOfItems })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-};
+}
 
 const getStudentById = async (req: Request, res: Response) => {
   try {
-    const student = await Student.find({ _id: req.params.id });
-    return res.send(student);
+    const student = await Student.find({ _id: req.params.id })
+    return res.send(student)
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send(error)
   }
-};
+}
 
 const registerStudent = async (req: Request, res: Response) => {
-  const studentId = await generateStudentId();
-  const email = generateStudentEmail(studentId, req.body);
-  const password = '12345678';
+  const studentId = await generateStudentId()
+  const email = generateStudentEmail(studentId, req.body)
+  const password = '12345678'
 
-  const validationResult = studentRegister.validate({ ...req.body, studentId, email, password });
+  const validationResult = studentRegister.validate({ ...req.body, studentId, email, password })
 
   if (validationResult.error) {
-    const errorMsg = validationResult.error.details[0].message;
-    return res.status(400).json({ error: errorMsg });
+    const errorMsg = validationResult.error.details[0].message
+    return res.status(400).json({ error: errorMsg })
   }
 
-  const newUser = new Student({ ...req.body, studentId, email, password });
+  const newUser = new Student({ ...req.body, studentId, email, password })
   try {
-    await newUser.save();
-    return res.send(newUser);
+    await newUser.save()
+    return res.send(newUser)
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send(error)
   }
-};
+}
 
 const updateStudent = async (req: Request, res: Response) => {
-  const userId = req.params.id;
-  const validationResult = studentUpdate.validate({ ...req.body, userId });
+  const userId = req.params.id
+  const validationResult = studentUpdate.validate({ ...req.body, userId })
 
   if (validationResult.error) {
-    const errorMsg = validationResult.error;
-    return res.status(400).json({ error: errorMsg });
+    const errorMsg = validationResult.error
+    return res.status(400).json({ error: errorMsg })
   }
   try {
-    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, { returnOriginal: false });
-    if (!updatedStudent) return res.status(404).send('User not found!');
-    return res.send(updatedStudent);
+    const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, { returnOriginal: false })
+    if (!updatedStudent) return res.status(404).send('User not found!')
+    return res.send(updatedStudent)
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error)
   }
-};
+}
 
 const deleteStudent = async (req: Request, res: Response) => {
   try {
-    const deletedStudent = await Student.findByIdAndDelete(req.params.id);
-    if (!deletedStudent) res.status(404).send('User not found!');
-    res.status(200).send(deletedStudent);
+    const deletedStudent = await Student.findByIdAndDelete(req.params.id)
+    if (!deletedStudent) res.status(404).send('User not found!')
+    res.status(200).send(deletedStudent)
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error)
   }
-};
+}
 
-export default { getAllStudents, getPaniationItems, getStudentById, registerStudent, updateStudent, deleteStudent };
+export default { getAllStudents, getFilteredUsers, getStudentById, registerStudent, updateStudent, deleteStudent }

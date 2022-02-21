@@ -1,18 +1,18 @@
-import express from 'express';
-import studentController from '../../controllers/student.controller';
+import express from 'express'
+import studentController from '../../controllers/student.controller'
 
-const studentRouter = express.Router();
+const studentRouter = express.Router()
 
-studentRouter.get('/', studentController.getAllStudents);
+studentRouter.get('/', studentController.getAllStudents)
 
-studentRouter.get('/paginate', studentController.getPaniationItems);
+studentRouter.get('/filter', studentController.getFilteredUsers)
 
-studentRouter.get('/:id', studentController.getStudentById);
+studentRouter.get('/:id', studentController.getStudentById)
 
-studentRouter.post('/', studentController.registerStudent);
+studentRouter.post('/', studentController.registerStudent)
 
-studentRouter.put('/:id', studentController.updateStudent);
+studentRouter.put('/:id', studentController.updateStudent)
 
-studentRouter.delete('/:id', studentController.deleteStudent);
+studentRouter.delete('/:id', studentController.deleteStudent)
 
-export default studentRouter;
+export default studentRouter
