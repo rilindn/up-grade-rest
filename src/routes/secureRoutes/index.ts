@@ -6,6 +6,7 @@ import { loggedUser } from '../../controllers/auth.controller'
 import staffRoutes from './staff.route'
 import adminRoutes from './admin.route'
 import subjectRoutes from './subject.route'
+import gradesRoutes from './grades.route'
 
 const router = express.Router()
 
@@ -17,5 +18,6 @@ router.use('/staff', staffRoutes)
 router.use('/admin', adminRoutes)
 router.use('/class', classRoutes)
 router.use('/subject', subjectRoutes)
+router.use('/grades', gradesRoutes)
 
 export default router
