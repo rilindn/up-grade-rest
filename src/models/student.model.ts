@@ -10,7 +10,42 @@ const Student = User.discriminator(
       trim: true,
     },
     parent: {
+      firstName: { type: String, required: true },
+      phoneNumber: { type: Number, required: true },
+    },
+    enrolledYear: {
+      type: Number,
+      required: true,
+      trim: true,
+    },
+    nationality: {
       type: String,
+      required: true,
+      trim: true,
+    },
+    citizenship: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    place: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    zipCode: {
+      type: Number,
+      required: true,
+      trim: true,
+    },
+    personalEmail: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    status: {
+      type: Boolean,
+      required: true,
       trim: true,
     },
   }),
