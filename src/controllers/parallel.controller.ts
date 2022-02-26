@@ -2,6 +2,7 @@ import ParallelModel from '../models/parallel.model'
 import { Request, Response } from 'express'
 import { registerSchema, updateSchema, newClassStudent } from '../validators/parallel.validation'
 import Student from '../models/student.model'
+import ClassModel from '../models/class.model'
 
 const getAllParallels = async (req: Request, res: Response) => {
   try {
@@ -18,6 +19,26 @@ const getParallelById = async (req: Request, res: Response) => {
     return res.send(parallel)
   } catch (error) {
     return res.status(500).send(error)
+  }
+}
+
+const getNonAssignedParallels = async (req: Request, res: Response) => {
+  let classes = await ClassModel.find()
+  let parallels = await ParallelModel.find()
+
+  if (!parallels) res.status(404).send('Parallels not found!')
+  if (!classes) res.status(404).send('Classes not found!')
+
+  try {
+    let classParallels = classes
+      ?.map(({ parallels }: any) => {
+        return parallels?.map(({ parallel }: any) => parallel)
+      })
+      .flat(5)
+    const result = parallels?.filter(({ _id }: any) => !classParallels?.includes(_id.toString()))
+    res.send(result)
+  } catch (error) {
+    res.status(500).send(error)
   }
 }
 
@@ -88,10 +109,7 @@ const addClassStudent = async (req: Request, res: Response) => {
 
   if (!parallel) res.status(404).send('Parallel not found!')
   try {
-    console.log(JSON.stringify(parallel, null, 2))
     parallel?.students.push(req.body)
-    console.log(JSON.stringify(parallel, null, 2))
-    console.log(JSON.stringify(req.body, null, 2))
     await parallel.save()
     res.send(parallel)
   } catch (error) {
@@ -109,4 +127,13 @@ const deleteParallel = async (req: Request, res: Response) => {
   }
 }
 
-export default { getAllParallels, getParallelById, getParallelStudents, registerParallel, addClassStudent, updateParallel, deleteParallel }
+export default {
+  getAllParallels,
+  getParallelById,
+  getParallelStudents,
+  getNonAssignedParallels,
+  registerParallel,
+  addClassStudent,
+  updateParallel,
+  deleteParallel,
+}
