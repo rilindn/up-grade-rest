@@ -5,6 +5,8 @@ const parallelRoutes = express.Router()
 
 parallelRoutes.get('/', parallelController.getAllParallels)
 
+parallelRoutes.get('/non-assigned', parallelController.getNonAssignedParallels)
+
 parallelRoutes.get('/students/:id', parallelController.getParallelStudents)
 
 parallelRoutes.get('/:id', parallelController.getParallelById)
