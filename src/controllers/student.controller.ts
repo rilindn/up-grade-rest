@@ -3,6 +3,7 @@ import { generateStudentId, generateStudentEmail } from '../services/student.ser
 import { studentRegister, studentUpdate } from './../validators/student.validation'
 import Student from '../models/student.model'
 import paginate from 'jw-paginate'
+import ParallelModel from '../models/parallel.model'
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
@@ -33,6 +34,26 @@ const getFilteredUsers = async (req: any, res: any) => {
     return res.status(200).send({ pager, pageOfItems })
   } catch (error) {
     console.log(error)
+  }
+}
+
+const getNonAssignedStudents = async (req: Request, res: Response) => {
+  let parallels = await ParallelModel.find()
+  let students = await Student.find()
+
+  if (!parallels) res.status(404).send('Parallels not found!')
+  if (!students) res.status(404).send('Students not found!')
+
+  try {
+    let parallelStudents = parallels
+      ?.map(({ students }: any) => {
+        return students?.map(({ student }: any) => student)
+      })
+      .flat(5)
+    const result = students?.filter(({ _id }: any) => !parallelStudents?.includes(_id.toString()))
+    res.send(result)
+  } catch (error) {
+    res.status(500).send(error)
   }
 }
 
@@ -93,4 +114,4 @@ const deleteStudent = async (req: Request, res: Response) => {
   }
 }
 
-export default { getAllStudents, getFilteredUsers, getStudentById, registerStudent, updateStudent, deleteStudent }
+export default { getAllStudents, getFilteredUsers, getNonAssignedStudents, getStudentById, registerStudent, updateStudent, deleteStudent }
