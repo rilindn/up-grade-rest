@@ -7,6 +7,8 @@ studentRouter.get('/', studentController.getAllStudents)
 
 studentRouter.get('/filter', studentController.getFilteredUsers)
 
+studentRouter.get('/non-assigned', studentController.getNonAssignedStudents)
+
 studentRouter.get('/:id', studentController.getStudentById)
 
 studentRouter.post('/', studentController.registerStudent)
