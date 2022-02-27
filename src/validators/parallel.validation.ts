@@ -29,3 +29,8 @@ export const newClassStudent = Joi.object({
   parallelId: Joi.string().required().label('ID'),
   student: Joi.string().required().label('Student ID'),
 })
+
+export const newClassCourse = Joi.object({
+  parallelId: Joi.string().required().label('ID'),
+  course: Joi.string().required().label('Course ID'),
+})

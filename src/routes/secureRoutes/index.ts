@@ -7,7 +7,7 @@ import staffRoutes from './staff.route'
 import adminRoutes from './admin.route'
 import subjectRoutes from './subject.route'
 import gradesRoutes from './grades.route'
-import subjectTeacher from './subjectTeacher.route'
+import courseRoutes from './course.route'
 import parallelRoutes from './parallel.route'
 
 const router = express.Router()
@@ -21,7 +21,7 @@ router.use('/admin', adminRoutes)
 router.use('/class', classRoutes)
 router.use('/subject', subjectRoutes)
 router.use('/grades', gradesRoutes)
-router.use('/subjectTeacher', subjectTeacher)
+router.use('/course', courseRoutes)
 router.use('/parallel', parallelRoutes)
 
 export default router
