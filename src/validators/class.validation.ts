@@ -18,3 +18,8 @@ export const updateSchema = Joi.object({
     parallel: Joi.string().label('Parallel ID'),
   }),
 })
+
+export const newClassParallel = Joi.object({
+  classId: Joi.string().required().label('ID'),
+  parallel: Joi.string().required().label('Parallel ID'),
+})

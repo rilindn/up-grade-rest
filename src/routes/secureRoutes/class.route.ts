@@ -1,16 +1,18 @@
-import express from 'express';
-import classController from '../../controllers/class.controller';
+import express from 'express'
+import classController from '../../controllers/class.controller'
 
-const classRoutes = express.Router();
+const classRoutes = express.Router()
 
-classRoutes.get('/', classController.getAllClasses);
+classRoutes.get('/', classController.getAllClasses)
 
-classRoutes.get('/:id', classController.getClassById);
+classRoutes.post('/add-parallel/:id', classController.addClassStudent)
 
-classRoutes.post('/', classController.registerClass);
+classRoutes.get('/:id', classController.getClassById)
 
-classRoutes.put('/:id', classController.updateClass);
+classRoutes.post('/', classController.registerClass)
 
-classRoutes.delete('/:id', classController.deleteClass);
+classRoutes.put('/:id', classController.updateClass)
 
-export default classRoutes;
+classRoutes.delete('/:id', classController.deleteClass)
+
+export default classRoutes

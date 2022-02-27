@@ -15,6 +15,8 @@ parallelRoutes.post('/', parallelController.registerParallel)
 
 parallelRoutes.post('/add-student/:id', parallelController.addClassStudent)
 
+parallelRoutes.post('/delete-student', parallelController.deleteStudentParallel)
+
 parallelRoutes.put('/:id', parallelController.updateParallel)
 
 parallelRoutes.delete('/:id', parallelController.deleteParallel)
