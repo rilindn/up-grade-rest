@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const SubjectTeacherSchema = new mongoose.Schema(
+const CourseSchema = new mongoose.Schema(
   {
     teacher: {
       name: { type: String },
@@ -13,8 +13,8 @@ const SubjectTeacherSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    collection: 'subjectTeachers',
+    collection: 'courses',
   },
 )
 
-export default mongoose.model('SubjectTeacher', SubjectTeacherSchema)
+export default mongoose.model('Course', CourseSchema)

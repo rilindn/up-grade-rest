@@ -12,7 +12,7 @@ export const registerSchema = Joi.object({
 })
 
 export const updateSchema = Joi.object({
-  subjectTeacherId: Joi.string().required().label('SubjectTeacherId'),
+  courseId: Joi.string().required().label('Course ID'),
   teacher: Joi.object({
     id: Joi.string().label('Teacher ID'),
     name: Joi.string().label('Teacher name'),

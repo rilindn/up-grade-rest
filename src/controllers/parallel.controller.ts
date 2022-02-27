@@ -1,8 +1,9 @@
 import ParallelModel from '../models/parallel.model'
 import { Request, Response } from 'express'
-import { registerSchema, updateSchema, newClassStudent } from '../validators/parallel.validation'
+import { registerSchema, updateSchema, newClassStudent, newClassCourse } from '../validators/parallel.validation'
 import Student from '../models/student.model'
 import ClassModel from '../models/class.model'
+import Course from '../models/course.model'
 
 const getAllParallels = async (req: Request, res: Response) => {
   try {
@@ -53,6 +54,26 @@ const getParallelStudents = async (req: Request, res: Response) => {
     Promise.all(
       parallel?.students.map(({ student }: any) => {
         return Student.findById(student)
+      }),
+    ).then((students) => {
+      res.send(students)
+    })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
+const getParallelCourses = async (req: Request, res: Response) => {
+  const parallelId = req.params.id
+
+  let parallel = await ParallelModel.findById(parallelId)
+
+  if (!parallel) res.status(404).send('Parallel not found!')
+
+  try {
+    Promise.all(
+      parallel?.courses.map(({ course }: any) => {
+        return Course.findById(course)
       }),
     ).then((students) => {
       res.send(students)
@@ -117,6 +138,26 @@ const addClassStudent = async (req: Request, res: Response) => {
   }
 }
 
+const addClassCourse = async (req: Request, res: Response) => {
+  const parallelId = req.params.id
+  const validationResult = newClassCourse.validate({ ...req.body, parallelId })
+
+  if (validationResult.error) {
+    const errorMsg = validationResult.error.details[0].message
+    return res.status(400).json({ error: errorMsg })
+  }
+  let parallel = await ParallelModel.findById(parallelId)
+
+  if (!parallel) res.status(404).send('Parallel not found!')
+  try {
+    parallel?.courses.push(req.body)
+    await parallel.save()
+    res.send(parallel)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
 const deleteStudentParallel = async (req: Request, res: Response) => {
   const { parallelId, studentId } = req.body
 
@@ -124,13 +165,28 @@ const deleteStudentParallel = async (req: Request, res: Response) => {
 
   if (!parallel) res.status(404).send('Parallel not found!')
   try {
-    console.log(parallel)
     const result = parallel?.students.filter(({ student }: any) => {
       return student != studentId
     })
-    console.log('result', result)
-
     parallel.students = result
+    await parallel.save()
+    res.send(parallel)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
+const deleteParallelCourse = async (req: Request, res: Response) => {
+  const { parallelId, courseId } = req.body
+
+  let parallel = await ParallelModel.findById(parallelId)
+
+  if (!parallel) res.status(404).send('Parallel not found!')
+  try {
+    const result = parallel?.courses.filter(({ course }: any) => {
+      return course != courseId
+    })
+    parallel.courses = result
     await parallel.save()
     res.send(parallel)
   } catch (error) {
@@ -153,7 +209,10 @@ export default {
   getParallelById,
   getParallelStudents,
   getNonAssignedParallels,
+  getParallelCourses,
+  addClassCourse,
   deleteStudentParallel,
+  deleteParallelCourse,
   registerParallel,
   addClassStudent,
   updateParallel,

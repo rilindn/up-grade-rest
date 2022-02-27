@@ -9,13 +9,19 @@ parallelRoutes.get('/non-assigned', parallelController.getNonAssignedParallels)
 
 parallelRoutes.get('/students/:id', parallelController.getParallelStudents)
 
+parallelRoutes.get('/courses/:id', parallelController.getParallelCourses)
+
 parallelRoutes.get('/:id', parallelController.getParallelById)
 
 parallelRoutes.post('/', parallelController.registerParallel)
 
 parallelRoutes.post('/add-student/:id', parallelController.addClassStudent)
 
+parallelRoutes.post('/add-course/:id', parallelController.addClassCourse)
+
 parallelRoutes.post('/delete-student', parallelController.deleteStudentParallel)
+
+parallelRoutes.post('/delete-course', parallelController.deleteParallelCourse)
 
 parallelRoutes.put('/:id', parallelController.updateParallel)
 

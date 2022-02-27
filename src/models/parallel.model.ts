@@ -11,9 +11,9 @@ var ParallelSchema = new mongoose.Schema(
         _id: false,
       },
     ],
-    subjectTeachers: [
+    courses: [
       {
-        subjectTeacher: { type: String },
+        course: { type: String },
         _id: false,
       },
     ],
