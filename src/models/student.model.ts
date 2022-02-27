@@ -47,6 +47,7 @@ const Student = User.discriminator(
       type: Boolean,
       required: true,
       trim: true,
+      default: true,
     },
   }),
 )

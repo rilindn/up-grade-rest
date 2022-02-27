@@ -13,7 +13,6 @@ export const studentRegister = registerSchema.keys({
   place: Joi.string().required().label('Place'),
   zipCode: Joi.number().required().label('Zipcode'),
   personalEmail: Joi.string().required().label('Personal email'),
-  status: Joi.boolean().required().label('Status'),
 })
 
 export const studentUpdate = updateSchema.keys({
@@ -28,5 +27,4 @@ export const studentUpdate = updateSchema.keys({
   place: Joi.string().label('Place'),
   zipCode: Joi.number().label('Zipcode'),
   personalEmail: Joi.string().label('Personal email'),
-  status: Joi.boolean().label('Status'),
 })
