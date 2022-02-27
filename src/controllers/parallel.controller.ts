@@ -117,6 +117,27 @@ const addClassStudent = async (req: Request, res: Response) => {
   }
 }
 
+const deleteStudentParallel = async (req: Request, res: Response) => {
+  const { parallelId, studentId } = req.body
+
+  let parallel = await ParallelModel.findById(parallelId)
+
+  if (!parallel) res.status(404).send('Parallel not found!')
+  try {
+    console.log(parallel)
+    const result = parallel?.students.filter(({ student }: any) => {
+      return student != studentId
+    })
+    console.log('result', result)
+
+    parallel.students = result
+    await parallel.save()
+    res.send(parallel)
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
 const deleteParallel = async (req: Request, res: Response) => {
   try {
     const deletedClass = await ParallelModel.findByIdAndDelete(req.params.id)
@@ -132,6 +153,7 @@ export default {
   getParallelById,
   getParallelStudents,
   getNonAssignedParallels,
+  deleteStudentParallel,
   registerParallel,
   addClassStudent,
   updateParallel,
