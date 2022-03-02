@@ -51,13 +51,12 @@ const getParallelStudents = async (req: Request, res: Response) => {
   if (!parallel) res.status(404).send('Parallel not found!')
 
   try {
-    Promise.all(
+    const students = await Promise.all(
       parallel?.students.map(({ student }: any) => {
         return Student.findById(student)
       }),
-    ).then((students) => {
-      res.send(students)
-    })
+    )
+    return res.send(students.filter(Boolean))
   } catch (error) {
     res.status(500).send(error)
   }
@@ -78,6 +77,51 @@ const getParallelCourses = async (req: Request, res: Response) => {
     ).then((students) => {
       res.send(students)
     })
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
+const getTeacherParallels = async (req: Request, res: Response) => {
+  const teacherId = req.params.id
+  let parallels = await ParallelModel.find()
+
+  if (!parallels) res.status(404).send('Parallels not found!')
+
+  try {
+    const matchParallel = async (parallel: any) => {
+      return parallel?.courses?.some(async ({ course }: any) => {
+        const resultCourse: any = await Course.findById(course)
+        return resultCourse?.teacher?.id === teacherId
+      })
+    }
+    const resultedParallels = await Promise.all(
+      parallels?.map(async (parallel: any) => {
+        const isMatched = await matchParallel(parallel)
+        if (isMatched) return parallel
+      }),
+    )
+    return res.send(resultedParallels.flat(5).filter(Boolean))
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
+const getTeacherParallelCourses = async (req: Request, res: Response) => {
+  const teacherId = req.params.teacherId
+  const parallelId = req.params.parallelId
+
+  let parallel: any = await ParallelModel.findById(parallelId)
+  if (!parallel) res.status(404).send('Parallel not found!')
+
+  try {
+    const matchedParallel: any = await Promise.all(
+      parallel?.courses?.map(async ({ course }: any) => {
+        const resultCourse: any = await Course.findById(course)
+        if (resultCourse?.teacher?.id === teacherId) return resultCourse
+      }),
+    )
+    return res.send(matchedParallel.filter(Boolean))
   } catch (error) {
     res.status(500).send(error)
   }
@@ -210,6 +254,8 @@ export default {
   getParallelStudents,
   getNonAssignedParallels,
   getParallelCourses,
+  getTeacherParallelCourses,
+  getTeacherParallels,
   addClassCourse,
   deleteStudentParallel,
   deleteParallelCourse,

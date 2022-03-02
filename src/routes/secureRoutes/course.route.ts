@@ -5,7 +5,9 @@ const courseRoutes = express.Router()
 
 courseRoutes.get('/', courseController.getAllCourses)
 
-courseRoutes.get('/non-assigned', courseController.getNonAssignedCourses)
+courseRoutes.get('/teacher/:id', courseController.getCourseByTeacherId)
+
+courseRoutes.get('/non-assigned/:parallelId', courseController.getParallelNonAssignedCourses)
 
 courseRoutes.get('/:id', courseController.getCourseById)
 

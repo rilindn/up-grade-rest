@@ -21,19 +21,25 @@ const getCourseById = async (req: Request, res: Response) => {
   }
 }
 
-const getNonAssignedCourses = async (req: Request, res: Response) => {
-  let parallels = await ParallelModel.find()
+const getCourseByTeacherId = async (req: Request, res: Response) => {
+  try {
+    const course = await Course.find({ 'teacher.id': req.params.id })
+    return res.send(course)
+  } catch (error) {
+    return res.status(500).send(error)
+  }
+}
+
+const getParallelNonAssignedCourses = async (req: Request, res: Response) => {
+  const parallelId = req.params.parallelId
+  let parallel = await ParallelModel.findById(parallelId)
   let courses = await Course.find()
 
-  if (!parallels) res.status(404).send('Parallels not found!')
+  if (!parallel) res.status(404).send('Parallel not found!')
   if (!courses) res.status(404).send('Courses not found!')
 
   try {
-    let parallelCourses = parallels
-      ?.map(({ courses }: any) => {
-        return courses?.map(({ course }: any) => course)
-      })
-      .flat(5)
+    let parallelCourses = parallel?.courses?.map(({ course }: any) => course).flat(5)
     const result = courses?.filter(({ _id }: any) => !parallelCourses?.includes(_id.toString()))
     res.send(result)
   } catch (error) {
@@ -86,4 +92,4 @@ const deleteCourse = async (req: Request, res: Response) => {
   }
 }
 
-export default { getAllCourses, getCourseById, getNonAssignedCourses, registerCourse, updateCourse, deleteCourse }
+export default { getAllCourses, getCourseById, getCourseByTeacherId, getParallelNonAssignedCourses, registerCourse, updateCourse, deleteCourse }
