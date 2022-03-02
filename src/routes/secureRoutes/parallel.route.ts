@@ -11,6 +11,10 @@ parallelRoutes.get('/students/:id', parallelController.getParallelStudents)
 
 parallelRoutes.get('/courses/:id', parallelController.getParallelCourses)
 
+parallelRoutes.get('/teacher/:id', parallelController.getTeacherParallels)
+
+parallelRoutes.get('/teacher/:parallelId/:teacherId', parallelController.getTeacherParallelCourses)
+
 parallelRoutes.get('/:id', parallelController.getParallelById)
 
 parallelRoutes.post('/', parallelController.registerParallel)
