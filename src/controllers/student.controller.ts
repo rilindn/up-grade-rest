@@ -114,4 +114,19 @@ const deleteStudent = async (req: Request, res: Response) => {
   }
 }
 
-export default { getAllStudents, getFilteredUsers, getNonAssignedStudents, getStudentById, registerStudent, updateStudent, deleteStudent }
+const countStudentsByGender = async (req: Request, res: Response) => {
+  const female = await Student.countDocuments({ gender: 'Female' })
+  const male = await Student.countDocuments({ gender: 'Male' })
+  res.status(200).json({ female, male })
+}
+
+export default {
+  getAllStudents,
+  getFilteredUsers,
+  getNonAssignedStudents,
+  getStudentById,
+  registerStudent,
+  updateStudent,
+  deleteStudent,
+  countStudentsByGender,
+}
