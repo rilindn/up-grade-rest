@@ -13,6 +13,7 @@ export const studentRegister = registerSchema.keys({
   place: Joi.string().label('Place'),
   zipCode: Joi.number().label('Zipcode'),
   personalEmail: Joi.string().label('Personal email'),
+  profilePictureUrl: Joi.string().label('Profile picture'),
 })
 
 export const studentUpdate = updateSchema.keys({
@@ -27,4 +28,5 @@ export const studentUpdate = updateSchema.keys({
   place: Joi.string().label('Place'),
   zipCode: Joi.number().label('Zipcode'),
   personalEmail: Joi.string().label('Personal email'),
+  profilePictureUrl: Joi.string().label('Profile picture'),
 })

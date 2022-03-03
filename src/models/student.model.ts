@@ -49,6 +49,9 @@ const Student = User.discriminator(
       trim: true,
       default: true,
     },
+    profilePictureUrl: {
+      type: String,
+    },
   }),
 )
 
