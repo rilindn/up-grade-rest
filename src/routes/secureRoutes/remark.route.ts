@@ -5,13 +5,13 @@ const remarkRoutes = express.Router()
 
 remarkRoutes.get('/', remarkController.getAllRemarks)
 
-remarkRoutes.get('/', remarkController.getRemarksById)
+remarkRoutes.get('/:id', remarkController.getRemarksById)
 
-remarkRoutes.get('/', remarkController.registerRemark)
+remarkRoutes.post('/', remarkController.registerRemark)
 
-remarkRoutes.get('/', remarkController.updateRemark)
+remarkRoutes.put('/', remarkController.updateRemark)
 
-remarkRoutes.get('/', remarkController.deleteRemark)
+remarkRoutes.delete('/', remarkController.deleteRemark)
 
 export default remarkRoutes
 
