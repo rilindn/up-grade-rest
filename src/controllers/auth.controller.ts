@@ -11,8 +11,7 @@ const login = async (req: any, res: any, next: any) => {
   passport.authenticate('local', async (err: any, user: any) => {
     try {
       if (err || !user) {
-        const error = new Error('Invalid login data!')
-        return next(error)
+        return res.status(401).send('Invalid credentials! Please try again!')
       }
       req.login(user, { session: false }, async (error: any) => {
         if (error) return next(error)

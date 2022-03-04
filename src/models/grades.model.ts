@@ -5,24 +5,36 @@ var GradesSchema = new mongoose.Schema(
     student: {
       type: String,
       index: true,
+      unique: true,
     },
     grade: [
       {
-        subject: {
+        course: {
           teacher: { type: String },
-          id: { type: String },
-          name: { type: String, index: true },
+          id: { type: String, index: true, unique: true },
+          subject: { type: String },
         },
-        periods: [
-          {
-            period: { type: Number },
-            first: { type: Number },
-            second: { type: Number },
-            final: { type: Number },
+        periods: {
+          '1': {
+            first: { type: Number, default: null },
+            second: { type: Number, default: null },
+            final: { type: Number, default: null },
             _id: false,
           },
-        ],
-        final: { type: Number },
+          '2': {
+            first: { type: Number, default: null },
+            second: { type: Number, default: null },
+            final: { type: Number, default: null },
+            _id: false,
+          },
+          '3': {
+            first: { type: Number, default: null },
+            second: { type: Number, default: null },
+            final: { type: Number, default: null },
+            _id: false,
+          },
+        },
+        final: { type: Number, default: null },
       },
     ],
   },
