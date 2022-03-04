@@ -9,9 +9,9 @@ remarkRoutes.get('/:id', remarkController.getRemarksById)
 
 remarkRoutes.post('/', remarkController.registerRemark)
 
-remarkRoutes.put('/', remarkController.updateRemark)
+remarkRoutes.put('/:id', remarkController.updateRemark)
 
-remarkRoutes.delete('/', remarkController.deleteRemark)
+remarkRoutes.delete('/:id', remarkController.deleteRemark)
 
 export default remarkRoutes
 
