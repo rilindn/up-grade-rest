@@ -4,6 +4,7 @@ import { registerSchema, updateSchema, newClassStudent, newClassCourse } from '.
 import Student from '../models/student.model'
 import ClassModel from '../models/class.model'
 import Course from '../models/course.model'
+import Grades from '../models/grades.model'
 
 const getAllParallels = async (req: Request, res: Response) => {
   try {
@@ -170,12 +171,15 @@ const addClassStudent = async (req: Request, res: Response) => {
     const errorMsg = validationResult.error.details[0].message
     return res.status(400).json({ error: errorMsg })
   }
+  const studentGrades = { student: req.body.student, grade: [] }
   let parallel = await ParallelModel.findById(parallelId)
-
   if (!parallel) res.status(404).send('Parallel not found!')
+  const newGrades = new Grades({ ...studentGrades })
+
   try {
     parallel?.students.push(req.body)
     await parallel.save()
+    await newGrades.save()
     res.send(parallel)
   } catch (error) {
     res.status(500).send(error)
