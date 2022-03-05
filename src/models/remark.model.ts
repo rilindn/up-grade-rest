@@ -1,19 +1,21 @@
 import mongoose from 'mongoose'
 
 const RemarkSchema = new mongoose.Schema(
-    {
-      teacher: {
-        name: { type: String },
-        id: { type: String },
-      },
-      remark: {
-        description: { type: String },
-      },
+  {
+    teacher: {
+      name: { type: String },
+      id: { type: String },
     },
-    {
-      timestamps: true,
-      collection: 'remarks',
+    student: {
+      name: { type: String },
+      id: { type: String },
     },
-  )
-  
-  export default mongoose.model('Remark', RemarkSchema)
+    description: { type: String },
+  },
+  {
+    timestamps: true,
+    collection: 'remarks',
+  },
+)
+
+export default mongoose.model('Remark', RemarkSchema)
