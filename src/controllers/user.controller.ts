@@ -2,8 +2,6 @@ import { Request, Response } from 'express'
 import { updateLangSchema, updateAvatarColor, updatePassword } from '../validators/user.validation'
 import User from '../models/user.model'
 import bcrypt from 'bcrypt'
-import { measureMemory } from 'vm'
-import studentScheduleModel from '../models/studentSchedule.model'
 
 const changeLanguage = async (req: Request, res: Response) => {
   const userId = req.params.id
