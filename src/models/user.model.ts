@@ -37,6 +37,15 @@ var UserSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    avatarColor: {
+      type: String,
+      trim: true,
+    },
+    language: {
+      type: String,
+      trim: true,
+      default: 'en',
+    },
   },
   {
     timestamps: true,
