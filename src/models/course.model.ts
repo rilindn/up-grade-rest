@@ -10,6 +10,7 @@ const CourseSchema = new mongoose.Schema(
       name: { type: String },
       id: { type: String },
     },
+    courseCode: { type: String },
   },
   {
     timestamps: true,
