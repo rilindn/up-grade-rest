@@ -9,6 +9,7 @@ export const registerSchema = Joi.object({
     id: Joi.string().required().label('Subject ID'),
     name: Joi.string().required().label('Subject name'),
   }),
+  courseCode: Joi.string().required().label('Course code'),
 })
 
 export const updateSchema = Joi.object({
@@ -21,4 +22,5 @@ export const updateSchema = Joi.object({
     id: Joi.string().label('Subject ID'),
     name: Joi.string().label('Subject name'),
   }),
+  courseCode: Joi.string().label('Course code'),
 })

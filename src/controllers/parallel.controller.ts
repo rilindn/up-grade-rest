@@ -5,6 +5,8 @@ import Student from '../models/student.model'
 import ClassModel from '../models/class.model'
 import Course from '../models/course.model'
 import Grades from '../models/grades.model'
+import Schedule from '../models/schedule.model'
+import { defaultDays } from '../services/schedule.service'
 
 const getAllParallels = async (req: Request, res: Response) => {
   try {
@@ -129,6 +131,7 @@ const getTeacherParallelCourses = async (req: Request, res: Response) => {
 }
 
 const registerParallel = async (req: Request, res: Response) => {
+  const days = defaultDays()
   const validationResult = registerSchema.validate({ ...req.body })
 
   if (validationResult.error) {
@@ -138,6 +141,8 @@ const registerParallel = async (req: Request, res: Response) => {
   const newParallel = new ParallelModel({ ...req.body })
   try {
     await newParallel.save()
+    const newParallelSchedule = new Schedule({ parallel: newParallel._id, days })
+    await newParallelSchedule.save()
     return res.send(newParallel)
   } catch (error) {
     return res.status(500).send(error)
@@ -244,9 +249,10 @@ const deleteParallelCourse = async (req: Request, res: Response) => {
 
 const deleteParallel = async (req: Request, res: Response) => {
   try {
-    const deletedClass = await ParallelModel.findByIdAndDelete(req.params.id)
-    if (!deletedClass) res.status(404).send('User not found!')
-    res.status(200).send(deletedClass)
+    const deletedParallel = await ParallelModel.findByIdAndDelete(req.params.id)
+    if (!deletedParallel) res.status(404).send('Parallel not found!')
+    await Schedule.deleteOne({ parallel: deletedParallel._id })
+    res.status(200).send(deletedParallel)
   } catch (error) {
     res.status(500).send(error)
   }

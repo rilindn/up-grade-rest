@@ -61,7 +61,7 @@ const updateGrades = async (req: Request, res: Response) => {
 
   if (validationResult.error) {
     const errorMsg = validationResult.error.details[0].message
-    return res.status(400).json({ error: errorMsg })
+    return res.status(400).send(errorMsg)
   }
 
   const setGrades = async (gradesData: any, { isNew }: any) => {
