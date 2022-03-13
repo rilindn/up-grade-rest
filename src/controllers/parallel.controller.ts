@@ -10,7 +10,10 @@ import { defaultDays } from '../services/schedule.service'
 
 const getAllParallels = async (req: Request, res: Response) => {
   try {
-    const parallels = await ParallelModel.find()
+    const search = req.query.search || ''
+    const parallels: any = await ParallelModel.find({
+      $or: [{ name: { $regex: search, $options: 'i' } }, { class: { $regex: search, $options: 'i' } }],
+    })
     return res.send(parallels)
   } catch (error) {
     return res.status(500).send(error)

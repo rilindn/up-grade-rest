@@ -39,7 +39,15 @@ const getFilteredUsers = async (req: any, res: any) => {
 
 const getNonAssignedStudents = async (req: Request, res: Response) => {
   let parallels = await ParallelModel.find()
-  let students = await Student.find()
+  const search = req.query.search || ''
+  const students: any = await Student.find({
+    $or: [
+      { firstName: { $regex: search, $options: 'i' } },
+      { lastName: { $regex: search, $options: 'i' } },
+      { email: { $regex: search, $options: 'i' } },
+      { studentId: { $regex: search, $options: 'i' } },
+    ],
+  })
 
   if (!parallels) res.status(404).send('Parallels not found!')
   if (!students) res.status(404).send('Students not found!')
