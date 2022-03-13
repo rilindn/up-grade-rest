@@ -5,7 +5,14 @@ import ParallelModel from '../models/parallel.model'
 
 const getAllCourses = async (req: Request, res: Response) => {
   try {
-    const courses = await Course.find()
+    const search = req.query.search || ''
+    const courses: any = await Course.find({
+      $or: [
+        { courseCode: { $regex: search, $options: 'i' } },
+        { 'teacher.name': { $regex: search, $options: 'i' } },
+        { 'subject.name': { $regex: search, $options: 'i' } },
+      ],
+    })
     return res.send(courses)
   } catch (error) {
     return res.status(500).send(error)

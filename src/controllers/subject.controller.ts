@@ -4,7 +4,10 @@ import { registerSchema, updateSchema } from '../validators/subject.validation'
 
 const getAllSubjects = async (req: Request, res: Response) => {
   try {
-    const subjects = await SubjectModel.find()
+    const search = req.query.search || ''
+    const subjects: any = await SubjectModel.find({
+      $or: [{ subjectName: { $regex: search, $options: 'i' } }, { subjectDescription: { $regex: search, $options: 'i' } }],
+    })
     return res.send(subjects)
   } catch (error) {
     return res.status(500).send(error)
