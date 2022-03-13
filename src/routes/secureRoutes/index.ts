@@ -10,6 +10,7 @@ import gradesRoutes from './grades.route'
 import courseRoutes from './course.route'
 import parallelRoutes from './parallel.route'
 import remarkRoutes from './remark.route'
+import userRoutes from './user.route'
 
 const router = express.Router()
 
@@ -25,5 +26,6 @@ router.use('/grades', gradesRoutes)
 router.use('/course', courseRoutes)
 router.use('/parallel', parallelRoutes)
 router.use('/remark', remarkRoutes)
+router.use('/user', userRoutes)
 
 export default router

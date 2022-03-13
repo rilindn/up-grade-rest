@@ -1,3 +1,4 @@
+import { query } from 'express'
 import Joi from 'joi'
 
 export const registerSchema = Joi.object({
@@ -17,4 +18,20 @@ export const updateSchema = Joi.object({
   password: Joi.string().alphanum().min(7).max(30).label('Password'),
   dateOfBirth: Joi.string().label('Date of birth'),
   gender: Joi.string().label('Gender'),
+})
+
+export const updateLangSchema = Joi.object({
+  userId: Joi.string().required().label('User Id'),
+  language: Joi.string().valid('en', 'al').required().label('Language'),
+})
+
+export const updateAvatarColor = Joi.object({
+  userId: Joi.string().required().label('User Id'),
+  avatarColor: Joi.string().required().label('Avatar'),
+})
+
+export const updatePassword = Joi.object({
+  userId: Joi.string().required().label('User Id'),
+  newPassword: Joi.string().required().min(8).label('New Password'),
+  currentPassword: Joi.string().required().min(8).label('Current Password'),
 })
