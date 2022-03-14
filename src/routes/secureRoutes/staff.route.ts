@@ -1,16 +1,18 @@
-import express from 'express';
-import staffController from '../../controllers/staff.controller';
+import express from 'express'
+import staffController from '../../controllers/staff.controller'
 
-const staffRouter = express.Router();
+const staffRouter = express.Router()
 
-staffRouter.get('/', staffController.getAllStaff);
+staffRouter.get('/', staffController.getAllStaff)
 
-staffRouter.get('/:id', staffController.getStaffById);
+staffRouter.get('/filter', staffController.getFilteredStaff)
 
-staffRouter.post('/', staffController.registerStaff);
+staffRouter.get('/:id', staffController.getStaffById)
 
-staffRouter.put('/:id', staffController.updateStaff);
+staffRouter.post('/', staffController.registerStaff)
 
-staffRouter.delete('/:id', staffController.deleteStaff);
+staffRouter.put('/:id', staffController.updateStaff)
 
-export default staffRouter;
+staffRouter.delete('/:id', staffController.deleteStaff)
+
+export default staffRouter

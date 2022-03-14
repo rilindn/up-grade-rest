@@ -11,7 +11,7 @@ const Student = User.discriminator(
     },
     parent: {
       firstName: { type: String, required: true },
-      phoneNumber: { type: Number, required: true },
+      phoneNumber: { type: Number },
     },
     enrolledYear: {
       type: Number,
@@ -30,17 +30,14 @@ const Student = User.discriminator(
     },
     place: {
       type: String,
-      required: true,
       trim: true,
     },
     zipCode: {
       type: Number,
-      required: true,
       trim: true,
     },
     personalEmail: {
       type: String,
-      required: true,
       trim: true,
     },
     status: {

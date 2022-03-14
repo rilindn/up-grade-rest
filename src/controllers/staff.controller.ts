@@ -6,6 +6,15 @@ import paginate from 'jw-paginate'
 
 const getAllStaff = async (req: any, res: any) => {
   try {
+    const staff: any = await Staff.find()
+    return res.status(200).send(staff)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getFilteredStaff = async (req: any, res: any) => {
+  try {
     const page = parseInt(req.query.page) || 1
     const search = req.query.search || ''
     const staff: any = await Staff.find({
@@ -83,4 +92,4 @@ const deleteStaff = async (req: Request, res: Response) => {
   }
 }
 
-export default { getAllStaff, getStaffById, registerStaff, updateStaff, deleteStaff }
+export default { getAllStaff, getFilteredStaff, getStaffById, registerStaff, updateStaff, deleteStaff }
